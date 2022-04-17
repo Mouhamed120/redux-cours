@@ -1,11 +1,18 @@
-import { createSlice } from "@reduxjs/toolkit";
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { increment } from "./counterSlice";
 
-const cartSilice = createSlice({
-  name: "slice1"
-});
+// export const { increment } = counterSlice.actions;
+
 const App = () => {
-  const [counter, setCounter] = useState(0);
+  const res = useSelector((state) => state.counter);
+  const dispatch = useDispatch();
+  // console.log(res)
+  console.log(typeof res);
+  const handleClick = () => {
+    dispatch(increment(res));
+  };
+
   /**
    * l'etat permet de décrire l'etate de l'application à un moment préci
    *
@@ -14,77 +21,80 @@ const App = () => {
    *
    *
    */
-  const [listeDesEleves, setListeDesEleves] = useState([
-    { id: 1, prenom: "Mouhamed" },
-    { id: 2, prenom: "Doudou" },
-    { id: 3, prenom: "Khadim" },
-    { id: 4, prenom: "kana" },
-    { id: 5, prenom: "nafi" },
-    { id: 6, prenom: "laye" }
-  ]);
+  // const [listeDesEleves, setListeDesEleves] = useState([
+  //   { id: 1, prenom: "Mouhamed" },
+  //   { id: 2, prenom: "Doudou" },
+  //   { id: 3, prenom: "Khadim" },
+  //   { id: 4, prenom: "kana" },
+  //   { id: 5, prenom: "nafi" },
+  //   { id: 6, prenom: "laye" }
+  // ]);
 
+  // const handleClick = () => {
+  //   store.dispatch();
+  // };
   return (
     <>
-      {/* <button>compter :[ {counter} ]</button> */}
-      <User
+      <button onClick={() => handleClick()}>compter :[ {res} ]</button>
+      {/* <User
         listeDesEleves={listeDesEleves}
         setListeDesEleves={setListeDesEleves}
-      />
+      /> */}
     </>
   );
 };
 
-const User = ({ listeDesEleves, setListeDesEleves }) => {
-  const handleClick = (id) => {
-    const newListe = listeDesEleves.filter((item) => item.id !== id);
-    setListeDesEleves(newListe);
-  };
+// const User = ({ listeDesEleves, setListeDesEleves }) => {
+//   const handleClick = (id) => {
+//     const newListe = listeDesEleves.filter((item) => item.id !== id);
+//     setListeDesEleves(newListe);
+//   };
 
-  return (
-    <>
-      <Form
-        listeDesEleves={listeDesEleves}
-        setListeDesEleves={setListeDesEleves}
-      />
+//   return (
+//     <>
+//       <Form
+//         listeDesEleves={listeDesEleves}
+//         setListeDesEleves={setListeDesEleves}
+//       />
 
-      {listeDesEleves.map((i) => {
-        return (
-          <ul key={i.id}>
-            <li>{i.id}</li>
-            <li>
-              {i.prenom}{" "}
-              <button onClick={() => handleClick(i.id)}>Clicme</button>
-            </li>
-          </ul>
-        );
-      })}
-    </>
-  );
-};
+//       {listeDesEleves.map((i) => {
+//         return (
+//           <ul key={i.id}>
+//             <li>{i.id}</li>
+//             <li>
+//               {i.prenom}{" "}
+//               <button onClick={() => handleClick(i.id)}>Clicme</button>
+//             </li>
+//           </ul>
+//         );
+//       })}
+//     </>
+//   );
+// };
 
-const Form = ({ listeDesEleves, setListeDesEleves }) => {
-  const [name, setName] = useState("");
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const newObj = { id: Date.now().toLocaleString(), prenom: name };
-    // setListeDesEleves(newObj);
-    setListeDesEleves((prev) => {
-      console.log(prev);
-      return [...prev, newObj];
-    });
-  };
+// const Form = ({ listeDesEleves, setListeDesEleves }) => {
+//   const [name, setName] = useState("");
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+//     const newObj = { id: Date.now().toLocaleString(), prenom: name };
+//     // setListeDesEleves(newObj);
+//     setListeDesEleves((prev) => {
+//       console.log(prev);
+//       return [...prev, newObj];
+//     });
+//   };
 
-  return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="name"
-        />
-      </form>
-    </>
-  );
-};
+//   return (
+//     <>
+//       <form onSubmit={handleSubmit}>
+//         <input
+//           type="text"
+//           value={name}
+//           onChange={(e) => setName(e.target.value)}
+//           placeholder="name"
+//         />
+//       </form>
+//     </>
+//   );
+// };
 export default App;
